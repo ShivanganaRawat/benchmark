@@ -1,0 +1,100 @@
+{
+    "name": "DeepLab",
+    "n_gpu": 1,
+    "use_synch_bn": false,
+    "dataset" : "Tomato",
+    "data_dir" : "data/tomato",
+
+    "arch": {
+        "type": "DeepLab",
+        "args": {
+            "backbone": "resnet101",
+            "freeze_bn": false,
+            "freeze_backbone": false,
+            "drop_conv":0.1
+        }
+    },
+
+    "labeled_loader": {
+        "type": "Tomato",
+        "args":{
+            "data_dir": "data/tomato",
+            "batch_size": 16,
+            "base_size": 512,
+            "crop_size":512,
+            "augment": true,
+            "shuffle": true,
+            "scale": true,
+            "flip": true,
+            "rotate": true,
+            "blur": false,
+            "split": "train",
+            "num_workers": 32,
+            "create_dataset_using_txt" : true,
+            "load_from" : "labeled.csv"
+        }
+    },
+
+    "unlabeled_loader": {
+        "type": "Tomato",
+        "args":{
+            "data_dir": "data/tomato",
+            "augment":true,
+            "crop_size":512,
+            "batch_size": 1,
+            "val": true,
+            "split": "train",
+            "num_workers": 32,
+            "create_dataset_using_txt" : true,
+            "load_from" : "unlabeled.csv"
+        }
+    },
+    "val_loader": {
+        "type": "Tomato",
+        "args":{
+            "data_dir": "data/tomato",
+            "crop_size":512,
+            "augment":true,
+            "batch_size": 1,
+            "val": true,
+            "split": "test",
+            "num_workers": 32,
+            "create_dataset_using_txt" : true,
+            "load_from" : "data/tomato/test.csv"
+        }
+    },
+
+    "optimizer": {
+        "type": "SGD",
+        "differential_lr": true,
+        "args":{
+            "lr": 0.0005
+        }
+    },
+
+    "loss": "DiceLoss",
+    "ignore_index": 255,
+    "lr_scheduler": {
+        "type": "Poly",
+        "args": {}
+    },
+
+    "trainer": {
+        "epochs": 1000,
+        "original_save_dir": "saved/",
+        "save_period": 2,
+  
+        "monitor": "max Mean_IoU",
+        "early_stop": 10,
+        
+        "tensorboard": true,
+        "original_log_dir": "saved/runs",
+        "log_per_iter": 20,
+
+        "val": true,
+        "val_per_epochs": 2
+    },
+    "work_dir" :"work_dir",
+    "exp_name" : "run5",
+    "seed" : 23
+}

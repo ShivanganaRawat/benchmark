@@ -1,0 +1,1 @@
+python al.py --max_episode=1 --device="2" --config="configs/random/apple/config1.json" --init_batch_size=4 --batch_size=4  --sampling_strategy="Margin"

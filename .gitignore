@@ -127,3 +127,17 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+#Models
+*.pth
+
+#Directories
+data/
+__pycache__/
+wandb/
+work_dir/
+
+#images
+*.jpg
+*.jpeg
+*.png
